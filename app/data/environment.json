@@ -1,0 +1,44 @@
+{
+    "devices": [
+        {
+            "element": {
+                "type": "polymerElement",
+                "element": "dyna-termo-mock"
+            },
+            "options": {
+                "address": "http://129.120.120.120",
+                "interval": 200
+            }
+        },
+        {
+            "element": {
+                "type": "polymerElement",
+                "element": "dyna-termo-mock"
+            },
+            "options": {
+                "address": "http://129.120.120.121",
+                "interval": 100
+            }
+        },
+        {
+            "element": {
+                "type": "polymerElement",
+                "element": "dyna-termo-mock"
+            },
+            "options": {
+                "address": "http://129.120.120.122",
+                "interval": 200
+            }
+        },
+        {
+            "element": {
+                "type": "polymerElement",
+                "element": "dyna-barometer-mock"
+            },
+            "options": {
+                "address": "http://129.120.120.123",
+                "interval": 300
+            }
+        }
+    ]
+}

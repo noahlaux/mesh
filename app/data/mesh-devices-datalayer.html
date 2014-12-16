@@ -1,0 +1,51 @@
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="/app/devices/dyna-termo-mock.html">
+<link rel="import" href="/app/devices/dyna-barometer-mock.html">
+
+<polymer-element name="mesh-devices-datalayer" attributes="devices">
+    <template>
+        <core-ajax
+            auto
+            url="/app/data/environment.json"
+            handleAs="json"
+            response="{{ response }}"
+        ></core-ajax>
+    </template>
+    <script>
+    Polymer('mesh-devices-datalayer', {
+        ready: function () {
+            this.elementTypes = {
+                /**
+                 * Handles polymer elements
+                 * @param  {String} element element to create
+                 * @param  {Object} options option data to bind to element
+                 * @return {HTML element}
+                 */
+                polymerElement: function (element, options) {
+                    var polymerElement = document.createElement(element);
+                    Object.keys(options).forEach(function (option) {
+                        polymerElement[option] = options[option];
+                    });
+                    return polymerElement;
+                }
+            }
+        },
+        responseChanged: function (oldValue) {
+            var devices = this.response && this.response.devices;
+
+            this.devices = devices.map(function (device) {
+                var type = device.element.type;
+                var element = device.element.element;
+                var options = device.options;
+                return this.elementTypes[type](element, options);
+            }.bind(this));
+
+            this.devices.getFromAddress = function (address) {
+                return this.devices.filter(function (device) {
+                    return device.address === address;
+                })[0];
+            }.bind(this);
+        }
+    });
+    </script>
+</polymer-element>
