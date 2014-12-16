@@ -1,0 +1,10 @@
+{
+    "dataTypes": [
+        "string",
+        "number",
+        "boolean",
+        "data",
+        "range",
+        "list"
+    ]
+}

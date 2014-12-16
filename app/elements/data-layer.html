@@ -1,0 +1,43 @@
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="/app/devices/dyna-termo-mock.html">
+<link rel="import" href="/app/devices/dyna-barometer-mock.html">
+
+<polymer-element name="data-layer">
+    <template>
+        <core-ajax
+            auto
+            url="/app/dataTypes/device-config.json"
+            handleAs="json"
+            on-core-response="{{ handleResponse }}"></core-ajax>
+
+        <!-- mocks -->
+        <dyna-termo-mock class="device" address="http://129.120.120.120"></dyna-termo-mock>
+        <dyna-termo-mock class="device" address="http://129.120.120.121" interval="200"></dyna-termo-mock>
+        <dyna-termo-mock class="device" address="http://129.120.120.122" interval="300"></dyna-termo-mock>
+        <dyna-barometer-mock class="device" address="http://129.120.120.124" interval="300"></dyna-barometer-mock>
+    </template>
+    <script>
+        Polymer('data-layer', {
+            publish: {
+                modules: [],
+                devices: []
+            },
+
+            ready: function () {
+                this.devices = [].slice.call(this.shadowRoot.querySelectorAll('[address]'));
+                this.devices.getFromAddress = function (address) {
+                    return this.devices.filter(function (device) {
+                        return device.address === address;
+                    })[0];
+                }.bind(this);
+            },
+
+            handleResponse: function (data) {
+                var modules = data.detail.response;
+                modules.forEach(function (module) {
+                    this.modules.push(module);
+                }.bind(this));
+            }
+        });
+    </script>
+</polymer-element>

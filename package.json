@@ -1,0 +1,11 @@
+{
+  "name": "mesh",
+  "version": "0.0.1",
+  "description": "u know da drill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Laux (noahlaux@gmail.com)",
+  "license": "BSD-2-Clause"
+}

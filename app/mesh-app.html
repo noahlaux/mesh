@@ -1,0 +1,44 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="/bower_components/core-menu/core-menu.html">
+<link rel="import" href="/bower_components/core-item/core-item.html">
+
+<link rel="import" href="elements/data-layer.html">
+<link rel="import" href="elements/mesh-device.html">
+<link rel="import" href="elements/mesh-module.html">
+
+<polymer-element name="mesh-app" noscript>
+    <template>
+
+        <data-layer modules="{{ modules }}" devices="{{ devices }}"></data-layer>
+
+        <core-scaffold>
+            <!-- header -->
+            <core-header-panel navigation flex mode="waterfall">
+                <core-toolbar>Mesh app</core-toolbar>
+                <core-menu theme="core-light-theme">
+                    <!-- <core-item icon="settings" label="item1"></core-item>
+                    <core-item icon="settings" label="item2"></core-item> -->
+                </core-menu>
+            </core-header-panel>
+
+            <div tool>dashboard</div>
+            <h3>Physical devices</h3>
+            <template repeat="{{ device in devices }}">
+                <mesh-device data="{{ device }}"></mesh-device>
+            </template>
+
+            <hr>
+
+            <!-- modules -->
+            <h3>Abstract devices</h3>
+            <template repeat="{{ module in modules }}">
+                <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+            </template>
+
+        </core-scaffold>
+    </template>
+</polymer-element>
+

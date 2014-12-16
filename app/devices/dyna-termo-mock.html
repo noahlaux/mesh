@@ -1,0 +1,34 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<polymer-element name="dyna-termo-mock">
+  <script>
+    Polymer('dyna-termo-mock', {
+
+      publish: {
+        name: 'dyna-termo mock device',
+        address: undefined,
+        interval: 500
+      },
+
+      ready: function() {
+        this.parameters = {
+          power: false,
+          temperature: 0
+        };
+
+        setInterval(function() {
+          this.setRandom();
+        }.bind(this), this.interval);
+      },
+
+      setRandom: function () {
+        this.parameters.power = this.getRandomNumberBetween(0, 2) === 0 ? false : true;
+        this.parameters.temperature = this.getRandomNumberBetween(-3, 20);
+      },
+
+      getRandomNumberBetween: function (from, to) {
+        return Math.floor(Math.random() * to) + from;
+      }
+    });
+  </script>
+</polymer-element>

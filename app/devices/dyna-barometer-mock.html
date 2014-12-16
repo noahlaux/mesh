@@ -1,0 +1,36 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<polymer-element name="dyna-barometer-mock">
+  <script>
+    Polymer('dyna-barometer-mock', {
+
+      publish: {
+        name: 'dyna-barometer mock module',
+        address: undefined,
+        interval: 200
+      },
+
+      ready: function() {
+        this.parameters = {
+          power: false,
+          humidity: 0,
+          airpressure: 0
+        };
+
+        setInterval(function() {
+          this.setRandom();
+        }.bind(this), this.interval);
+      },
+
+      setRandom: function () {
+        this.parameters.power = this.getRandomNumberBetween(0, 2) === 0 ? false : true;
+        this.parameters.humidity = this.getRandomNumberBetween(40, 60);
+        this.parameters.airpressure = this.getRandomNumberBetween(0, 40);
+      },
+
+      getRandomNumberBetween: function (from, to) {
+        return Math.floor(Math.random() * to) + from;
+      }
+    });
+  </script>
+</polymer-element>

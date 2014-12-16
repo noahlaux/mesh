@@ -1,0 +1,185 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-elements/paper-elements.html">
+
+<polymer-element name="mesh-module">
+  <template>
+    <style>
+      .module {
+        display: inline-block;
+        background: white;
+        box-sizing: border-box;
+        width: 300px;
+        margin: 16px;
+        padding: 20px;
+        border-radius: 3px;
+        vertical-align: top;
+        /*border: 3px solid #333;*/
+      }
+
+      .address {
+        color: #000;
+        text-align: center;
+        padding: 5px;
+        font-size: 12px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+        border-bottom: 1px solid;
+      }
+
+      .status-bar {
+        position: absolute;
+        background: red;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 12px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+      }
+
+      .status-bar.connected {
+        background: green;
+      }
+
+      .parameter {
+        color: red;
+      }
+      .parameter.connected {
+        color: green;
+      }
+
+      .range.below-zero::shadow #activeProgress {
+        background-color: orange;
+       }
+
+
+    </style>
+    <template bind="{{ data }}">
+      <paper-shadow z="1" class="module">
+          <div class="address">
+            Connect to: <paper-input label="address" value="{{ address }}"></paper-input>
+          </div>
+          <h3>{{ name }}</h3>
+          <small>Manifactor: {{ manifactor.name }}</small>
+
+          <template if="{{ position }}">
+            <div class="position">position: {{ position.description }}</div>
+          </template>
+
+          <ul>
+            <template repeat="{{ parameter in parameters }}">
+              <li>
+                <span class="parameter {{ { connected: parameter.connected } | tokenList }}">
+
+                  <template if="{{ parameter.range }}">
+                    <paper-progress
+                      class="range {{ { 'below-zero': parameter.value < 0 } | tokenList }}"
+                      value="{{ parameter.value }}"
+                      min="{{ parameter.range[0] }}"
+                      max="{{ parameter.range[1] }}">
+                    </paper-progress>
+                  </template>
+
+                  <template if="{{ parameter.type === 'boolean' }}">
+                    <paper-toggle-button checked="{{ parameter.value }}"></paper-toggle-button>
+                  </template>
+                <div>
+                  {{ parameter.id }} <i>({{ parameter.type }}) value: {{ parameter.value }}</i>
+                </div>
+                </span>
+              </li>
+            </template>
+          </ul>
+
+          <div class="status-bar {{ { connected: connected } | tokenList }}">Connected: {{ connected }}</div>
+      </paper-shadow>
+    </template>
+  </template>
+  <script>
+    Polymer('mesh-module', {
+      publish: {
+        data: {},
+        devices: undefined
+      },
+
+      observe: {
+        'data.address': 'changeAddress'
+      },
+
+      changeAddress: function (oldValue, newValue) {
+        this.physicalDevice = this.devices.getFromAddress(this.data.address);
+        this.linkDevice(this.physicalDevice, this.data);
+      },
+
+      ready: function() {
+        this.abstractDevice = this.data;
+      },
+
+      unlinkDevice: function (abstractDevice) {
+        abstractDevice.connected = false;
+        this.observer.close();
+      },
+
+      linkDevice: function (physicalDevice, abstractDevice) {
+
+        if (this.observer) {
+          this.unlinkDevice(abstractDevice);
+        }
+
+        if (physicalDevice) {
+            abstractDevice.connected = true;
+            this.observer = new ObjectObserver(this.physicalDevice.parameters);
+
+            this.observer.open(function(added, removed, changed, getOldValueFn) {
+              if (added) {
+                Object.keys(added).forEach(function (property) {
+                  this.addParameter(abstractDevice, property, added[property] );
+                }.bind(this));
+              }
+
+              if (changed) {
+                Object.keys(changed).forEach(function(property) {
+                  this.changeParameter(abstractDevice, property, changed[property]);
+                }.bind(this));
+              }
+
+              if (removed) {
+                Object.keys(removed).forEach(function(property) {
+                  this.removeParameter(abstractDevice, property, changed[property]);
+                }.bind(this));
+              }
+            }.bind(this));
+        }
+      },
+
+      addParameter: function (device, parameterId, value) {
+        var parameter = this.getDeviceParameter(device, parameterId);
+        parameter.connected = true;
+        // Set initial value
+        parameter.value = value;
+      },
+
+      changeParameter: function (device, parameterId, value) {
+        var parameter = this.getDeviceParameter(device, parameterId);
+        if (parameter) {
+          parameter.connected = true;
+          parameter.value = value;
+        }
+      },
+
+      removeParameter: function (device, parameterId, value) {
+        var parameter = this.getDeviceParameter(device, parameterId);
+        parameter.connected = false;
+      },
+
+      getDeviceParameter: function (device, parameterId) {
+        return device.parameters.filter(function (parameter) {
+          return parameter.id === parameterId;
+        })[0];
+      }
+    });
+  </script>
+</polymer-element>
