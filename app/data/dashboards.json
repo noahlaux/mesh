@@ -1,0 +1,32 @@
+[
+    {
+        "name": "default",
+        "modules": [
+            {
+                "type": "module",
+                "id": "dyna-termo",
+                "options": {
+                    "address": "http://129.120.120.120"
+                }
+            },
+            {
+                "type": "module",
+                "id": "dyna-termo",
+                "options": {
+                    "address": "http://129.120.120.121",
+                    "position": {
+                        "description": "Bedroom",
+                        "coords": [51, 22]
+                    }
+                }
+            },
+            {
+                "type": "module",
+                "id": "dyna-barometer",
+                "options": {
+                    "address": "http://129.120.120.123"
+                }
+            }
+        ]
+    }
+]

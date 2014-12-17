@@ -12,7 +12,7 @@
 <polymer-element name="mesh-app" noscript>
     <template>
 
-        <data-layer modules="{{ modules }}" devices="{{ devices }}"></data-layer>
+        <data-layer modules="{{ modules }}" devices="{{ devices }}" dashboards="{{ dashboards }}"></data-layer>
 
         <core-scaffold>
             <!-- header -->
@@ -33,9 +33,15 @@
             <hr>
 
             <!-- modules -->
-            <h3>Abstract devices</h3>
+            <!-- <h3>Abstract devices</h3>
             <template repeat="{{ module in modules }}">
                 <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+            </template> -->
+
+            <template repeat="{{ dashboard in dashboards }}">
+                <template repeat="{{ module in dashboard.modules }}">
+                     <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+                </template>
             </template>
 
         </core-scaffold>

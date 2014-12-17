@@ -1,0 +1,51 @@
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="mesh-dashboards-datalayer" attributes="dashboards modules">
+    <template>
+        <core-ajax
+            auto
+            url="/app/data/dashboards.json"
+            handleAs="json"
+            response="{{ response }}"
+        ></core-ajax>
+    </template>
+    <script>
+    Polymer('mesh-dashboards-datalayer', {
+
+        ready: function () {
+            this.types = {
+                'module': function (id, options) {
+                    var module = this.getModuleById(id);
+
+                    if (module) {
+
+                        Object.keys(options).forEach(function (key) {
+                            // TODO this should really be recursive extending
+                            module[key] = options[key];
+                        });
+                    }
+
+                    return module;
+                }
+            }
+        },
+
+        getModuleById: function (id) {
+            var module = this.modules.filter(function (module) {
+                return module.id === id;
+            })[0];
+            return module ? JSON.parse(JSON.stringify(module)) : undefined;
+        },
+
+        responseChanged: function (oldValue) {
+            var self = this,types = this.types;
+            this.dashboards = this.response.map(function (dashboard) {
+                dashboard.modules = dashboard.modules.map(function (module) {
+                    return types[module.type].call(self, module.id, module.options);
+                });
+                return dashboard;
+            });
+        }
+    });
+    </script>
+</polymer-element>

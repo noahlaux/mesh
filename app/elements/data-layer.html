@@ -1,9 +1,11 @@
 <link rel="import" href="/app/data/mesh-devices-datalayer.html">
 <link rel="import" href="/app/data/mesh-modules-datalayer.html">
+<link rel="import" href="/app/data/mesh-dashboards-datalayer.html">
 
-<polymer-element name="data-layer" attributes="devices modules" noscript>
+<polymer-element name="data-layer" attributes="devices modules dashboards" noscript>
     <template>
         <mesh-devices-datalayer devices="{{ devices }}"></mesh-devices-datalayer>
         <mesh-modules-datalayer modules="{{ modules }}"></mesh-modules-datalayer>
+        <mesh-dashboards-datalayer dashboards="{{ dashboards }}" modules="{{ modules }}"></mesh-dashboards-datalayer>
     </template>
 </polymer-element>
