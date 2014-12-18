@@ -2,11 +2,11 @@
 <link rel="import" href="/app/devices/dyna-termo-mock.html">
 <link rel="import" href="/app/devices/dyna-barometer-mock.html">
 
-<polymer-element name="mesh-devices-datalayer" attributes="devices">
+<polymer-element name="mesh-devices-datalayer" attributes="url devices">
     <template>
         <core-ajax
             auto
-            url="/app/data/environment.json"
+            url="{{ url }}"
             handleAs="json"
             response="{{ response }}"
         ></core-ajax>

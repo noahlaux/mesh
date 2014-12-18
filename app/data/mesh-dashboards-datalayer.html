@@ -1,10 +1,10 @@
 <link rel="import" href="/bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="mesh-dashboards-datalayer" attributes="dashboards modules">
+<polymer-element name="mesh-dashboards-datalayer" attributes="url dashboards modules">
     <template>
         <core-ajax
             auto
-            url="/app/data/dashboards.json"
+            url="{{ url }}"
             handleAs="json"
             response="{{ response }}"
         ></core-ajax>

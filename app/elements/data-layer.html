@@ -4,8 +4,8 @@
 
 <polymer-element name="data-layer" attributes="devices modules dashboards" noscript>
     <template>
-        <mesh-devices-datalayer devices="{{ devices }}"></mesh-devices-datalayer>
-        <mesh-modules-datalayer modules="{{ modules }}"></mesh-modules-datalayer>
-        <mesh-dashboards-datalayer dashboards="{{ dashboards }}" modules="{{ modules }}"></mesh-dashboards-datalayer>
+        <mesh-devices-datalayer devices="{{ devices }}" url="/app/data/api/environment.json"></mesh-devices-datalayer>
+        <mesh-modules-datalayer modules="{{ modules }}" url="/app/data/api/registeredModules.json"></mesh-modules-datalayer>
+        <mesh-dashboards-datalayer dashboards="{{ dashboards }}" modules="{{ modules }}" url="/app/data/api/dashboards.json"></mesh-dashboards-datalayer>
     </template>
 </polymer-element>
