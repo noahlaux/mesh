@@ -14,7 +14,18 @@
     Polymer('mesh-dashboards-datalayer', {
 
         ready: function () {
-            this.types = {
+
+            /**
+             * Current dashboards
+             * @type {Array}
+             */
+            this.dashboards = [];
+
+            /**
+             * Module render types
+             * @type {Object}
+             */
+            this.renderTypes = {
                 'module': function (id, options) {
                     var module = this.getModuleById(id);
 
@@ -38,14 +49,26 @@
             return module ? JSON.parse(JSON.stringify(module)) : undefined;
         },
 
-        responseChanged: function (oldValue) {
+        /**
+         * Add dashboard
+         * @param {Object} dashboard
+         */
+        addDashboard: function (dashboard) {
             var self = this,types = this.types;
-            this.dashboards = this.response.map(function (dashboard) {
-                dashboard.modules = dashboard.modules.map(function (module) {
-                    return types[module.type].call(self, module.id, module.options);
-                });
-                return dashboard;
-            });
+            dashboard.modules = dashboard.modules.map(function (module) {
+                return this.renderTypes[module.type].call(this, module.id, module.options);
+            }.bind(this));
+            this.dashboards.push(dashboard);
+        },
+
+        removeDashboard: function (dashboard) {
+            // TODO
+        },
+
+        responseChanged: function (oldValue) {
+            this.response.map(function (dashboard) {
+                this.addDashboard(dashboard);
+            }.bind(this));
         }
     });
     </script>
