@@ -1,6 +1,6 @@
 [
     {
-        "name": "default",
+        "name": "Dashboard 1",
         "modules": [
             {
                 "type": "module",
@@ -25,6 +25,18 @@
                 "id": "dyna-barometer",
                 "options": {
                     "address": "http://129.120.120.123"
+                }
+            }
+        ]
+    },
+    {
+        "name": "Dashboard 2",
+        "modules": [
+            {
+                "type": "module",
+                "id": "dyna-termo",
+                "options": {
+                    "address": "http://129.120.120.120"
                 }
             }
         ]

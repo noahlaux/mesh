@@ -4,47 +4,72 @@
 <link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
 <link rel="import" href="/bower_components/core-item/core-item.html">
+<link rel="import" href="/bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="/bower_components/core-animated-pages/transitions/slide-from-right.html">
+
 
 <link rel="import" href="elements/data-layer.html">
 <link rel="import" href="elements/mesh-device.html">
 <link rel="import" href="elements/mesh-module.html">
 
-<polymer-element name="mesh-app" noscript>
+<polymer-element name="mesh-app">
     <template>
 
         <data-layer modules="{{ modules }}" devices="{{ devices }}" dashboards="{{ dashboards }}"></data-layer>
 
-        <core-scaffold>
+        <core-scaffold mode="waterfall-tall">
             <!-- header -->
             <core-header-panel navigation flex mode="waterfall">
                 <core-toolbar>Mesh app</core-toolbar>
                 <core-menu theme="core-light-theme">
+                    <template repeat="{{ device in devices }}">
+                        <mesh-device data="{{ device }}"></mesh-device>
+                    </template>
                     <!-- <core-item icon="settings" label="item1"></core-item>
                     <core-item icon="settings" label="item2"></core-item> -->
                 </core-menu>
             </core-header-panel>
 
-            <div tool>dashboard</div>
-            <h3>Physical devices</h3>
-            <template repeat="{{ device in devices }}">
-                <mesh-device data="{{ device }}"></mesh-device>
-            </template>
+            <core-toolbar tool flex class="medium-tall">
 
-            <hr>
+                <paper-icon-button icon="menu"></paper-icon-button>
+                <div flex>Dashboard</div>
+                <paper-icon-button icon="search"></paper-icon-button>
+                <paper-icon-button icon="more-vert"></paper-icon-button>
 
-            <!-- modules -->
-            <!-- <h3>Abstract devices</h3>
-            <template repeat="{{ module in modules }}">
-                <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
-            </template> -->
+                <div class="bottom fit" horizontal layout>
 
-            <template repeat="{{ dashboard in dashboards }}">
-                <template repeat="{{ module in dashboard.modules }}">
-                     <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+                  <paper-tabs selected="{{ selectedDashboard }}" flex style="max-width: 600px;">
+
+                    <template repeat="{{ dashboard in dashboards }}">
+                        <paper-tab>{{ dashboard.name }}</paper-tab>
+                    </template>
+
+                  </paper-tabs>
+
+                </div>
+            </core-toolbar>
+
+            <core-animated-pages selected="{{ selectedDashboard }}" transitions="slide-from-right">
+                <template repeat="{{ dashboard in dashboards }}">
+                    <section>
+                        <div>
+                            <template repeat="{{ module in dashboard.modules }}">
+                                <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+                            </template>
+                        </div>
+                    </section>
                 </template>
-            </template>
+            </core-animated-pages>
 
         </core-scaffold>
     </template>
+    <script>
+    Polymer('mesh-app', {
+        ready: function () {
+            this.selectedDashboard = 0;
+        }
+    });
+    </script>
 </polymer-element>
 
