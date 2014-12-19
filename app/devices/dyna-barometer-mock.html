@@ -23,6 +23,16 @@
         }.bind(this), this.interval);
       },
 
+      setPower: function (value) {
+        if (value === 'on') {
+            this.randomizer = setInterval(function() {
+              this.setRandom();
+            }.bind(this), this.interval);
+        } else {
+            clearInterval(this.randomizer);
+        }
+      },
+
       setRandom: function () {
         this.parameters.power = this.getRandomNumberBetween(0, 2) === 0 ? false : true;
         this.parameters.humidity = this.getRandomNumberBetween(40, 60);

@@ -4,32 +4,39 @@
   <script>
     Polymer('dyna-termo-mock', {
 
-      publish: {
-        name: 'dyna-termo mock device',
-        address: undefined,
-        interval: 500,
-        online: true
-      },
+        publish: {
+            name: 'dyna-termo mock device',
+            address: undefined,
+            interval: 500,
+            online: true,
+        },
 
-      ready: function() {
-        this.parameters = {
-          power: false,
-          temperature: 0
-        };
+        ready: function() {
+            this.parameters = {
+                power: false,
+                temperature: 0
+            };
+            this.setPower('on');
+        },
 
-        setInterval(function() {
-          this.setRandom();
-        }.bind(this), this.interval);
-      },
+        setPower: function (value) {
+            if (value === 'on') {
+                this.randomizer = setInterval(function() {
+                    this.setRandom();
+                }.bind(this), this.interval);
+            } else {
+                clearInterval(this.randomizer);
+            }
+        },
 
-      setRandom: function () {
-        this.parameters.power = this.getRandomNumberBetween(0, 2) === 0 ? false : true;
-        this.parameters.temperature = this.getRandomNumberBetween(-3, 20);
-      },
+        setRandom: function () {
+            this.parameters.power = this.getRandomNumberBetween(0, 2) === 0 ? false : true;
+            this.parameters.temperature = this.getRandomNumberBetween(-3, 20);
+        },
 
-      getRandomNumberBetween: function (from, to) {
-        return Math.floor(Math.random() * to) + from;
-      }
+        getRandomNumberBetween: function (from, to) {
+            return Math.floor(Math.random() * to) + from;
+        }
     });
   </script>
 </polymer-element>
