@@ -1,0 +1,19 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="/bower_components/core-animated-pages/transitions/slide-from-right.html">
+
+<polymer-element name="mesh-dashboards" attributes="dashboards selected devices" noscript>
+    <template>
+        <core-animated-pages selected="{{ selected }}" transitions="slide-from-right">
+            <template repeat="{{ dashboard in dashboards }}">
+                <section>
+                    <div>
+                        <template repeat="{{ module in dashboard.modules }}">
+                            <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
+                        </template>
+                    </div>
+                </section>
+            </template>
+        </core-animated-pages>
+    </template>
+</polymer-element>

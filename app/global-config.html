@@ -1,0 +1,44 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<polymer-element name="global-config" attributes="url config">
+  <template>
+     <core-ajax
+          id="configLoader"
+          auto
+          url="{{ url }}"
+          handleAs="json"
+          on-core-error="{{ handleError }}"
+          on-core-response="{{ handleResponse }}"
+      ></core-ajax>
+  </template>
+  <script>
+  (function() {
+    // these variables are shared by all instances of global-config
+    var globalConfig = {};
+
+    function init(data, cb) {
+      globalConfig = data;
+      cb();
+    }
+
+    Polymer({
+       ready: function() {
+         // copy global values into instance properties
+         this.globalConfig = globalConfig;
+       },
+
+       handleResponse: function (data) {
+          // Remove element, should we don't overwrite next time the component is included
+          this.$.configLoader.remove();
+          init(data.detail.response, function () {
+            this.config = globalConfig;
+          }.bind(this));
+       },
+
+       handleError: function (data) {
+         debugger;
+       }
+    });
+  })();
+  </script>
+</polymer-element>

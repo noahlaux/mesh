@@ -2,10 +2,22 @@
 <link rel="import" href="/app/data/mesh-modules-datalayer.html">
 <link rel="import" href="/app/data/mesh-dashboards-datalayer.html">
 
-<polymer-element name="data-layer" attributes="devices modules dashboards" noscript>
+<polymer-element name="data-layer" attributes="devices modules dashboards config" noscript>
     <template>
-        <mesh-devices-datalayer devices="{{ devices }}" url="/app/data/api/environment.json"></mesh-devices-datalayer>
-        <mesh-modules-datalayer modules="{{ modules }}" url="/app/data/api/registeredModules.json"></mesh-modules-datalayer>
-        <mesh-dashboards-datalayer dashboards="{{ dashboards }}" modules="{{ modules }}" url="/app/data/api/dashboards.json"></mesh-dashboards-datalayer>
+        <mesh-devices-datalayer
+            devices="{{ devices }}"
+            url="{{ config.environmentUrl }}">
+        </mesh-devices-datalayer>
+
+        <mesh-modules-datalayer
+            modules="{{ modules }}"
+            url="{{ config.modulesUrl }}">
+        </mesh-modules-datalayer>
+
+        <mesh-dashboards-datalayer
+            dashboards="{{ dashboards }}"
+            modules="{{ modules }}"
+            url="{{ config.dashboardsUrl }}">
+        </mesh-dashboards-datalayer>
     </template>
 </polymer-element>

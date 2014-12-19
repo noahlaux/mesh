@@ -1,0 +1,7 @@
+{
+    "api": {
+        "environmentUrl": "/app/data/api/environment.json",
+        "modulesUrl": "/app/data/api/registeredModules.json",
+        "dashboardsUrl": "/app/data/api/dashboards.json"
+    }
+}

@@ -4,18 +4,23 @@
 <link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
 <link rel="import" href="/bower_components/core-item/core-item.html">
-<link rel="import" href="/bower_components/core-animated-pages/core-animated-pages.html">
-<link rel="import" href="/bower_components/core-animated-pages/transitions/slide-from-right.html">
 
-
+<link rel="import" href="global-config.html">
 <link rel="import" href="elements/data-layer.html">
 <link rel="import" href="elements/mesh-device.html">
 <link rel="import" href="elements/mesh-module.html">
+<link rel="import" href="elements/mesh-dashboards.html">
 
 <polymer-element name="mesh-app">
     <template>
+        <global-config url="global-config.json" config="{{ globalConfig }}"></global-config>
 
-        <data-layer modules="{{ modules }}" devices="{{ devices }}" dashboards="{{ dashboards }}"></data-layer>
+        <data-layer
+            config="{{ globalConfig.api }}"
+            modules="{{ modules }}"
+            devices="{{ devices }}"
+            dashboards="{{ dashboards }}">
+        </data-layer>
 
         <core-scaffold mode="waterfall-tall">
             <!-- header -->
@@ -50,17 +55,11 @@
                 </div>
             </core-toolbar>
 
-            <core-animated-pages selected="{{ selectedDashboard }}" transitions="slide-from-right">
-                <template repeat="{{ dashboard in dashboards }}">
-                    <section>
-                        <div>
-                            <template repeat="{{ module in dashboard.modules }}">
-                                <mesh-module data="{{ module }}" devices="{{ devices }}"></mesh-module>
-                            </template>
-                        </div>
-                    </section>
-                </template>
-            </core-animated-pages>
+            <mesh-dashboards
+                dashboards="{{ dashboards }}"
+                selected="{{ selectedDashboard }}"
+                devices="{{ devices }}">
+            </mesh-dashboards>
 
         </core-scaffold>
     </template>

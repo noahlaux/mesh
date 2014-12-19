@@ -58,6 +58,8 @@
 
     </style>
     <template bind="{{ data }}">
+      <global-config config="{{ globalConfig }}"></global-config>
+
       <paper-shadow z="1" class="module">
           <div class="address">
             Connect to: <paper-input label="address" value="{{ address }}"></paper-input>
