@@ -10,9 +10,11 @@
 <link rel="import" href="elements/data-layer.html">
 <link rel="import" href="elements/mesh-device.html">
 <link rel="import" href="elements/mesh-dashboards.html">
+<link rel="import" href="data/meshblu-connection.html">
 
 <polymer-element name="mesh-app">
     <template>
+        <meshblu-connection></meshblu-connection>
         <global-config url="global-config.json" config="{{ globalConfig }}"></global-config>
 
         <data-layer

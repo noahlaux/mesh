@@ -1,0 +1,47 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<polymer-element name="meshblu-connection">
+    <script>
+        Polymer('meshblu-connection', {
+            ready: function() {
+                this.selectedDashboard = 0;
+
+                this.conn = skynet.createConnection({
+                  'uuid': '9be06f61-87cd-11e4-94c5-ab09a6c94ef5',
+                  'token': '5eh2d3nx58czbyb9yy0krg7e6rhsq0k9'
+                  //'server': 'localhost', // optional - defaults to ws://meshblu.octoblu.com
+                  //'port': 3000  // optional - defaults to 80
+                });
+
+                this.conn.on('ready', this.connectionReady.bind(this));
+                this.conn.on('notReady', this.connectionNotReady.bind(this));
+            },
+
+            connectionReady: function (data) {
+                console.log('UUID AUTHENTICATED!');
+                console.log(data);
+
+                this.conn.on('message', this.onMessage.bind(this));
+
+                // Send and receive messages
+                setTimeout(function () {
+                    this.conn.message({
+                        "devices": data.uuid,
+                        "payload": {
+                            "hello":"world"
+                        }
+                    });
+                }.bind(this), 200)
+            },
+
+            connectionNotReady: function (data) {
+                console.log('UUID FAILED AUTHENTICATION!');
+                console.log(data);
+            },
+
+            onMessage: function (data) {
+                console.log('message', data);
+            }
+        });
+    </script>
+</polymer-element>
