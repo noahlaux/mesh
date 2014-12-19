@@ -4,6 +4,7 @@
 <link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
 <link rel="import" href="/bower_components/core-item/core-item.html">
+<link rel="import" href="/app/utils/expressions.html">
 
 <link rel="import" href="global-config.html">
 <link rel="import" href="elements/data-layer.html">
@@ -43,18 +44,19 @@
 
                 <div class="bottom fit" horizontal layout>
 
-                  <paper-tabs selected="{{ selectedDashboard }}" flex style="max-width: 600px;">
+                    <paper-tabs selected="{{ selectedDashboard }}" flex style="max-width: 600px;">
 
-                    <template repeat="{{ dashboard in dashboards }}">
-                        <paper-tab>{{ dashboard.name }}</paper-tab>
-                    </template>
+                        <template repeat="{{ dashboard in dashboards }}">
+                            <paper-tab>{{ dashboard.name }}</paper-tab>
+                        </template>
 
-                  </paper-tabs>
+                    </paper-tabs>
 
                 </div>
             </core-toolbar>
 
             <mesh-dashboards
+                config="{{ globalConfig }}"
                 dashboards="{{ dashboards }}"
                 selected="{{ selectedDashboard }}"
                 devices="{{ devices }}">
@@ -63,11 +65,10 @@
         </core-scaffold>
     </template>
     <script>
-    Polymer('mesh-app', {
-        ready: function () {
-            this.selectedDashboard = 0;
-        }
-    });
+        Polymer('mesh-app', {
+            ready: function() {
+                this.selectedDashboard = 0;
+            }
+        });
     </script>
 </polymer-element>
-

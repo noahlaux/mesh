@@ -111,6 +111,12 @@
         'data.address': 'changeAddress'
       },
 
+      /**
+       * Change listening address of device
+       * @param {String} oldValue
+       * @param {String} newValue
+       * @return N/A
+       */
       changeAddress: function (oldValue, newValue) {
         this.physicalDevice = this.devices.getFromAddress(this.data.address);
         this.linkDevice(this.physicalDevice, this.data);
